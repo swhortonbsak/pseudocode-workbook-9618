@@ -1,0 +1,169 @@
+{
+  "title": "Pseudocode Workbook",
+  "subtitle": "Independent practice for Cambridge International Computer Science 9618",
+  "edition": "November 2026 • Original learning resource",
+  "tasks": [
+    {
+      "id": 1, "title": "School trip budget", "topic": "Sequence • REAL arithmetic", "marks": 5,
+      "question": "Read a positive integer Students and a non-negative REAL TicketPrice. A coach costs 180.00 in total. Output the total trip cost and the cost per student, sharing the coach cost equally. You may assume the inputs have the stated types and ranges. Do not round the results.",
+      "hint": "Add the coach charge once, before dividing by the number of students.",
+      "tests": [["30 students; ticket 12.50", "Total 555.00; per student 18.50"], ["1 student; ticket 0.00", "Total 180.00; per student 180.00"]],
+      "code": "DECLARE Students : INTEGER\nDECLARE TicketPrice, TotalCost, CostEach : REAL\nINPUT Students\nINPUT TicketPrice\nTotalCost ← Students * TicketPrice + 180.00\nCostEach ← TotalCost / Students\nOUTPUT TotalCost, CostEach",
+      "explanation": "The multiplication accounts for every ticket. The fixed coach charge is then added to the total. Division produces a REAL result; Students cannot be zero under the question's precondition.",
+      "rubric": [["Suitable declarations and both inputs", 1], ["Ticket cost multiplied by student count", 1], ["Coach cost added once", 1], ["Total divided by student count", 1], ["Both results output", 1]],
+      "pitfall": "Dividing only the ticket price by the number of students gives the wrong share of the total."
+    },
+    {
+      "id": 2, "title": "Parcel charge bands", "topic": "Selection • boundary values", "marks": 6,
+      "question": "Read a REAL Mass. If Mass is zero or negative, output Invalid mass. Otherwise charge 3.00 for a mass up to and including 1 kg, 5.50 for a mass above 1 kg and up to and including 5 kg, and 9.00 above 5 kg. Output only the applicable charge or the invalid message.",
+      "hint": "Test the invalid range first, then put the remaining ranges in increasing order.",
+      "tests": [["Mass: 0, 1, 1.01", "Invalid mass; 3.00; 5.50"], ["Mass: 5, 5.01", "5.50; 9.00"]],
+      "code": "DECLARE Mass : REAL\nINPUT Mass\nIF Mass <= 0 THEN\n   OUTPUT \"Invalid mass\"\nELSE\n   IF Mass <= 1 THEN\n      OUTPUT 3.00\n   ELSE\n      IF Mass <= 5 THEN\n         OUTPUT 5.50\n      ELSE\n         OUTPUT 9.00\n      ENDIF\n   ENDIF\nENDIF",
+      "explanation": "Each ELSE removes a range already considered. By the time Mass <= 5 is tested, Mass is known to be greater than 1. The nested branches ensure exactly one output.",
+      "rubric": [["Read Mass with a suitable type", 1], ["Reject zero and negative masses", 1], ["Correct inclusive 1 kg boundary", 1], ["Correct inclusive 5 kg boundary", 1], ["Correct remaining charge", 1], ["Exactly one appropriate output", 1]],
+      "pitfall": "Separate IF statements can print more than one price for the same mass."
+    },
+    {
+      "id": 3, "title": "Three chances to unlock", "topic": "WHILE • counters • Boolean flags", "marks": 7,
+      "question": "A practice lock accepts the STRING code 2468. Read at most three code attempts. Stop asking as soon as an attempt is correct. Output Access granted after a correct attempt, or Locked after three incorrect attempts. Treat the code as text; each INPUT supplies one attempt.",
+      "hint": "Track both the number of attempts and whether the lock is open.",
+      "tests": [["2468", "One input; Access granted"], ["1111, 0000, 2468", "Three inputs; Access granted"], ["a, b, c", "Three inputs; Locked"]],
+      "code": "DECLARE Attempt : STRING\nDECLARE Attempts : INTEGER\nDECLARE Unlocked : BOOLEAN\nAttempts ← 0\nUnlocked ← FALSE\nWHILE (Attempts < 3) AND (Unlocked = FALSE)\n   INPUT Attempt\n   Attempts ← Attempts + 1\n   IF Attempt = \"2468\" THEN\n      Unlocked ← TRUE\n   ENDIF\nENDWHILE\nIF Unlocked THEN\n   OUTPUT \"Access granted\"\nELSE\n   OUTPUT \"Locked\"\nENDIF",
+      "explanation": "The counter changes on every input, including a successful attempt. A successful third attempt is still accepted because the final message depends on Unlocked rather than the counter alone.",
+      "rubric": [["Counter and flag initialised", 1], ["Loop enforces the three-attempt limit", 1], ["Loop also stops after success", 1], ["Input and counter update on each attempt", 1], ["Compare with the correct STRING code", 1], ["Update success flag", 1], ["Correct final message", 1]],
+      "pitfall": "Using Attempts = 3 to decide failure rejects a correct third attempt."
+    },
+    {
+      "id": 4, "title": "Temperature log", "topic": "Sentinel input • totals • empty data", "marks": 8,
+      "question": "Read INTEGER temperatures until 999 is entered. The value 999 is a sentinel and must not be processed. Output the average of the readings, or No readings if the sentinel is the first input. Valid readings may be positive, zero, or negative. Assume every non-sentinel input is a valid temperature.",
+      "hint": "Read once before the loop and again at its end. Protect the division when no readings exist.",
+      "tests": [["-4, 0, 10, 999", "Average 2.0"], ["999", "No readings"], ["-8, 999", "Average -8.0"]],
+      "code": "DECLARE Reading, Total, Count : INTEGER\nDECLARE Average : REAL\nTotal ← 0\nCount ← 0\nINPUT Reading\nWHILE Reading <> 999\n   Total ← Total + Reading\n   Count ← Count + 1\n   INPUT Reading\nENDWHILE\nIF Count = 0 THEN\n   OUTPUT \"No readings\"\nELSE\n   Average ← Total / Count\n   OUTPUT Average\nENDIF",
+      "explanation": "Testing the sentinel before accumulation excludes it from both Total and Count. The empty-data branch avoids division by zero. Negative readings require no special case.",
+      "rubric": [["Suitable declarations and zero initialisation", 1], ["Initial input", 1], ["Loop stops at 999", 1], ["Accumulate valid values", 1], ["Count valid values", 1], ["Read the next value inside the loop", 1], ["Handle zero readings", 1], ["Calculate and output the average", 1]],
+      "pitfall": "Counting 999 as a reading changes both the numerator and the denominator."
+    },
+    {
+      "id": 5, "title": "Seats still available", "topic": "Arrays • counting • inclusive ranges", "marks": 6,
+      "question": "Read eight INTEGER values into FreeSeats[1:8]. Each value is the number of free seats on one minibus and is guaranteed to be from 0 to 15 inclusive. Output how many minibuses have at least four free seats, and output the total number of free seats across all eight minibuses.",
+      "hint": "A count of qualifying buses and a sum of seats measure different things.",
+      "tests": [["0, 4, 7, 3, 15, 4, 1, 2", "4 qualifying buses; 36 free seats"], ["0, 0, 0, 0, 0, 0, 0, 0", "0 qualifying buses; 0 free seats"]],
+      "code": "DECLARE FreeSeats : ARRAY[1:8] OF INTEGER\nDECLARE Index, Suitable, Total : INTEGER\nSuitable ← 0\nTotal ← 0\nFOR Index ← 1 TO 8\n   INPUT FreeSeats[Index]\n   Total ← Total + FreeSeats[Index]\n   IF FreeSeats[Index] >= 4 THEN\n      Suitable ← Suitable + 1\n   ENDIF\nNEXT Index\nOUTPUT Suitable, Total",
+      "explanation": "Every input contributes its seat value to Total. Only inputs meeting the inclusive threshold contribute one to Suitable. All eight array positions are visited exactly once.",
+      "rubric": [["Correct array declaration", 1], ["Both accumulators initialised", 1], ["Loop reads all eight elements", 1], ["Accumulate seat values", 1], ["Count values >= 4", 1], ["Output both results", 1]],
+      "pitfall": "Suitable must increase by one per qualifying bus, rather than by its seat count."
+    },
+    {
+      "id": 6, "title": "Mirror a message", "topic": "Strings • reverse traversal", "marks": 6,
+      "question": "Read a STRING Message, which may be empty. Build and output a second string containing the characters of Message in reverse order. Use LENGTH(S) for the number of characters and MID(S, Start, Count) for a substring; positions start at 1. Use & to concatenate strings. Do not call a built-in reverse function.",
+      "hint": "Start with an empty result and visit the original positions from last to first.",
+      "tests": [["Code!", "!edoC"], ["a", "a"], ["Empty string", "Empty string"]],
+      "code": "DECLARE Message, Mirrored : STRING\nDECLARE Position : INTEGER\nINPUT Message\nMirrored ← \"\"\nFOR Position ← LENGTH(Message) TO 1 STEP -1\n   Mirrored ← Mirrored & MID(Message, Position, 1)\nNEXT Position\nOUTPUT Mirrored",
+      "explanation": "Each substring contains one character. For an empty input the starting position is zero, so the negative-step loop has no iterations and the result stays empty.",
+      "rubric": [["Suitable declarations and input", 1], ["Empty result initialised", 1], ["Start at the final character", 1], ["Move backwards to position 1", 1], ["Extract and concatenate one character", 1], ["Output the reversed string", 1]],
+      "pitfall": "Using + instead of & treats string joining like arithmetic."
+    },
+    {
+      "id": 7, "title": "Busiest activity row", "topic": "2D arrays • nested loops • ties", "marks": 8,
+      "question": "Counts is an already populated INTEGER array with bounds [1:3,1:4]. Values are non-negative. Each row represents one activity and each column one session. Output each row total, then the row number with the largest total. If rows tie, choose the smallest row number. You do not need to read the array.",
+      "hint": "Reset the row total inside the outer loop. A strict comparison preserves the first tied row.",
+      "tests": [["Rows: [1,2,3,4]; [5,0,5,0]; [0,2,0,1]", "Totals 10, 10, 3; best row 1"], ["All twelve values are 0", "Totals 0, 0, 0; best row 1"]],
+      "code": "// Counts is supplied with bounds [1:3,1:4]\nDECLARE Row, Column, RowTotal : INTEGER\nDECLARE BestRow, BestTotal : INTEGER\nBestRow ← 1\nBestTotal ← -1\nFOR Row ← 1 TO 3\n   RowTotal ← 0\n   FOR Column ← 1 TO 4\n      RowTotal ← RowTotal + Counts[Row, Column]\n   NEXT Column\n   OUTPUT RowTotal\n   IF RowTotal > BestTotal THEN\n      BestTotal ← RowTotal\n      BestRow ← Row\n   ENDIF\nNEXT Row\nOUTPUT BestRow",
+      "explanation": "Because all entries are non-negative, -1 is below every possible row total. Updating only for a strictly greater total keeps the earlier row in a tie.",
+      "rubric": [["Valid initial best row and total", 1], ["Outer loop covers three rows", 1], ["Reset RowTotal for each row", 1], ["Inner loop covers four columns", 1], ["Correct 2D indexing and accumulation", 1], ["Output each row total", 1], ["Update total and row while preserving ties", 1], ["Output the winning row number", 1]],
+      "pitfall": "Resetting RowTotal before the outer loop produces running totals across rows."
+    },
+    {
+      "id": 8, "title": "First matching badge", "topic": "Linear search • duplicates • not found", "marks": 7,
+      "question": "Badges is an already populated STRING array with bounds [1:40]. N is an INTEGER from 0 to 40 giving the number of used entries. Read Target and output the index of its first occurrence within positions 1 to N, or 0 if it is absent. Repeated badge values are possible. Do not examine entries beyond N.",
+      "hint": "Use position 0 for not found and stop the loop once it changes.",
+      "tests": [["Used badges A, C, A; Target A", "1"], ["Used badges A, C, A; Target Z", "0"], ["N = 0; any Target", "0"]],
+      "code": "// Badges and N are supplied\nDECLARE Target : STRING\nDECLARE Index, Position : INTEGER\nINPUT Target\nIndex ← 1\nPosition ← 0\nWHILE (Index <= N) AND (Position = 0)\n   IF Badges[Index] = Target THEN\n      Position ← Index\n   ENDIF\n   Index ← Index + 1\nENDWHILE\nOUTPUT Position",
+      "explanation": "The loop condition contains no array access. Consequently no assumption about short-circuit Boolean evaluation is needed to keep the array access safe. For N = 0, the body is skipped.",
+      "rubric": [["Read Target and initialise search state", 1], ["Loop stays within used entries", 1], ["Loop stops after the first match", 1], ["Compare the current badge", 1], ["Save its index", 1], ["Advance the index", 1], ["Correct output for found and absent targets", 1]],
+      "pitfall": "Continuing and overwriting Position on every match returns the last match."
+    },
+    {
+      "id": 9, "title": "Sort waiting times", "topic": "Bubble sort • shrinking bounds", "marks": 8,
+      "question": "Times is an already populated INTEGER array with bounds [1:30]. N, from 1 to 30, gives its used length. Sort the used entries into ascending order using bubble sort. End early if a whole pass makes no swaps. Output each used value after sorting. Duplicate values must be retained.",
+      "hint": "After one full pass, the largest remaining value is already in its final position.",
+      "tests": [["Used values 9, 3, 3, 1", "1, 3, 3, 9"], ["Used value 5", "5; no comparison needed"], ["Used values 1, 2, 3", "1, 2, 3; first pass makes no swaps"]],
+      "code": "// Times and N are supplied\nDECLARE Last, Index, Temp : INTEGER\nDECLARE Swapped : BOOLEAN\nLast ← N\nSwapped ← TRUE\nWHILE (Last > 1) AND Swapped\n   Swapped ← FALSE\n   FOR Index ← 1 TO Last - 1\n      IF Times[Index] > Times[Index + 1] THEN\n         Temp ← Times[Index]\n         Times[Index] ← Times[Index + 1]\n         Times[Index + 1] ← Temp\n         Swapped ← TRUE\n      ENDIF\n   NEXT Index\n   Last ← Last - 1\nENDWHILE\nFOR Index ← 1 TO N\n   OUTPUT Times[Index]\nNEXT Index",
+      "explanation": "Each pass moves the largest unsorted value to Last. The next pass excludes that position. A pass without swaps proves that the remaining prefix is in order.",
+      "rubric": [["Initialise pass state", 1], ["Reset swap flag each pass", 1], ["Correct adjacent comparison bounds", 1], ["Compare in ascending-order direction", 1], ["Correct three-assignment swap", 1], ["Set flag after a swap", 1], ["Shrink the bound and stop when sorted", 1], ["Output all used entries", 1]],
+      "pitfall": "Comparing up to Last accesses Times[Last + 1], outside the active region."
+    },
+    {
+      "id": 10, "title": "Find a sorted catalogue code", "topic": "Binary search • integer midpoint", "marks": 8,
+      "question": "Codes is an INTEGER array with bounds [1:100]. Its N used entries are already sorted in ascending order and contain distinct values; N is from 0 to 100. Read Target and use binary search to output its index, or 0 if absent. Do not sort the array or use linear search.",
+      "hint": "Exclude the tested midpoint when narrowing the range.",
+      "tests": [["Codes 4, 9, 15, 22; Target 22", "4"], ["Codes 4, 9, 15, 22; Target 10", "0"], ["N = 0; any Target", "0"]],
+      "code": "// Codes and N are supplied\nDECLARE Target, Low, High, Mid, Position : INTEGER\nINPUT Target\nLow ← 1\nHigh ← N\nPosition ← 0\nWHILE (Low <= High) AND (Position = 0)\n   Mid ← (Low + High) DIV 2\n   IF Codes[Mid] = Target THEN\n      Position ← Mid\n   ELSE\n      IF Codes[Mid] < Target THEN\n         Low ← Mid + 1\n      ELSE\n         High ← Mid - 1\n      ENDIF\n   ENDIF\nENDWHILE\nOUTPUT Position",
+      "explanation": "Low and High describe an inclusive search interval. Removing Mid after a failed comparison guarantees progress. An empty array starts with Low > High and needs no special array access.",
+      "rubric": [["Read target and initialise bounds", 1], ["Initialise absent-result state", 1], ["Correct loop termination", 1], ["Integer midpoint", 1], ["Record a successful match", 1], ["Correct lower-bound update", 1], ["Correct upper-bound update", 1], ["Output found index or 0", 1]],
+      "pitfall": "Low ← Mid can repeat the same midpoint forever when the interval is small."
+    },
+    {
+      "id": 11, "title": "A reusable common-factor function", "topic": "Functions • MOD • Euclid's algorithm", "marks": 7,
+      "question": "Write a function CommonFactor(A : INTEGER, B : INTEGER) RETURNS INTEGER that returns the greatest common divisor of two positive integers. Use this method: repeatedly replace A by B and B by the remainder of the old A divided by the old B, stopping when B becomes zero. Also show a call for 84 and 30 that outputs the return value.",
+      "hint": "Save the remainder before overwriting either value.",
+      "tests": [["84, 30", "6"], ["7, 7", "7"], ["13, 5", "1"]],
+      "code": "FUNCTION CommonFactor(A : INTEGER, B : INTEGER)\n   RETURNS INTEGER\n   DECLARE Remainder : INTEGER\n   WHILE B <> 0\n      Remainder ← A MOD B\n      A ← B\n      B ← Remainder\n   ENDWHILE\n   RETURN A\nENDFUNCTION\n\nOUTPUT CommonFactor(84, 30)",
+      "explanation": "The nonzero remainders decrease until B becomes zero. At that point A holds the greatest common divisor. The parameters are passed by value, so this function does not change the caller's variables.",
+      "rubric": [["Function header with typed parameters and return type", 1], ["Loop stops when B is zero", 1], ["Calculate A MOD B before overwriting", 1], ["Replace A with old B", 1], ["Replace B with the saved remainder", 1], ["RETURN A", 1], ["Correct output of a function call", 1]],
+      "pitfall": "OUTPUT inside the function is not a substitute for returning a value to its caller."
+    },
+    {
+      "id": 12, "title": "Select the best project", "topic": "Records • filtering • tie handling", "marks": 8,
+      "question": "Define a record type ProjectRecord with a STRING Title, an INTEGER Score, and a BOOLEAN Submitted. Projects is an already populated array of 20 such records; N, from 0 to 20, gives the used length. Output the title and score of the submitted project with the highest score, or No submissions. Scores are 0 to 100. On a tie, use the first project in array order.",
+      "hint": "Track the winning index; index 0 can represent no eligible project.",
+      "tests": [["(Map,70,FALSE), (Game,60,TRUE), (Art,60,TRUE)", "Game, 60"], ["N = 0, or all Submitted = FALSE", "No submissions"]],
+      "code": "TYPE ProjectRecord\n   DECLARE Title : STRING\n   DECLARE Score : INTEGER\n   DECLARE Submitted : BOOLEAN\nENDTYPE\n// Supplied: Projects : ARRAY[1:20] OF ProjectRecord\n// Supplied: N : INTEGER\nDECLARE Index, BestIndex, BestScore : INTEGER\nBestIndex ← 0\nBestScore ← -1\nFOR Index ← 1 TO N\n   IF Projects[Index].Submitted THEN\n      IF Projects[Index].Score > BestScore THEN\n         BestScore ← Projects[Index].Score\n         BestIndex ← Index\n      ENDIF\n   ENDIF\nNEXT Index\nIF BestIndex = 0 THEN\n   OUTPUT \"No submissions\"\nELSE\n   OUTPUT Projects[BestIndex].Title,\n          Projects[BestIndex].Score\nENDIF",
+      "explanation": "BestScore = -1 is safe because valid scores are non-negative. The best index remains zero when no submitted project is visited. Strictly greater comparison preserves the first eligible project on a tie.",
+      "rubric": [["Record type with all three fields and types", 1], ["Initialise best-index and best-score state", 1], ["Visit only the N used records", 1], ["Ignore unsubmitted projects", 1], ["Correct comparison preserving first tie", 1], ["Update both winning fields", 1], ["Handle no submissions", 1], ["Output winning title and score", 1]],
+      "pitfall": "Selecting the largest score before checking Submitted can choose an ineligible project."
+    }
+  ],
+  "advanced": [
+    {
+      "id": 13, "title": "Recursive digit total", "topic": "A2 extension • recursion", "marks": 8,
+      "question": "Write a recursive function DigitTotal(N : INTEGER) RETURNS INTEGER for N >= 0. It must return the sum of the decimal digits of N, without strings or loops. Use a base case for N < 10. Trace the calls and returned values for DigitTotal(5072). Explain why recursion terminates.",
+      "scaffold": "Use N MOD 10 for the last digit and N DIV 10 for the remaining digits.",
+      "code": "FUNCTION DigitTotal(N : INTEGER) RETURNS INTEGER\n   IF N < 10 THEN\n      RETURN N\n   ELSE\n      RETURN (N MOD 10) + DigitTotal(N DIV 10)\n   ENDIF\nENDFUNCTION",
+      "explanation": "Calls descend through 5072, 507, 50, and 5. The base call returns 5. Unwinding gives 0 + 5 = 5, then 7 + 5 = 12, then 2 + 12 = 14. For each recursive call with N >= 10, integer division by 10 produces a smaller non-negative integer; it eventually reaches a single digit.",
+      "tests": [["DigitTotal(0)", "0"], ["DigitTotal(5072)", "14"], ["DigitTotal(999)", "27"]],
+      "rubric": [["Typed recursive function signature", 1], ["Correct single-digit base condition", 1], ["Base case returns N", 1], ["Extract final digit using MOD", 1], ["Recursive call on N DIV 10", 1], ["Return the sum", 1], ["Correct call and return trace for 5072", 1], ["Termination explained using a decreasing input", 1]],
+      "pitfall": "Calling DigitTotal(N) again leaves the argument unchanged and never reaches the base case."
+    },
+    {
+      "id": 14, "title": "Safe stack removal", "topic": "A2 extension • stack • BYREF", "marks": 8,
+      "question": "Stack is a global ARRAY[1:6] OF INTEGER and Top is a global INTEGER. Top = 0 means empty; otherwise Stack[Top] is the top item. Write Pop(BYREF Item : INTEGER, BYREF Success : BOOLEAN) as a procedure. If empty, set Success to FALSE and leave Item and Top unchanged. Otherwise copy the top item to Item, decrease Top, and set Success to TRUE. Show two calls when Top = 1 and Stack[1] = 42.",
+      "scaffold": "Use the precondition 0 <= Top <= 6. Only access Stack[Top] after ruling out an empty stack.",
+      "code": "PROCEDURE Pop(BYREF Item : INTEGER,\n              BYREF Success : BOOLEAN)\n   IF Top = 0 THEN\n      Success ← FALSE\n   ELSE\n      Item ← Stack[Top]\n      Top ← Top - 1\n      Success ← TRUE\n   ENDIF\nENDPROCEDURE\n\nDECLARE Value : INTEGER\nDECLARE OK : BOOLEAN\nCALL Pop(Value, OK)\nOUTPUT Value, OK\nCALL Pop(Value, OK)\nOUTPUT Value, OK",
+      "explanation": "Starting from the specified state, the first call outputs 42, TRUE and leaves Top = 0. The second outputs 42, FALSE and leaves Top = 0. Value retains its earlier value after the failed call. BYREF allows Item and Success to update the variables passed by the caller. Global Stack and Top are supplied state, so no local redeclarations are needed.",
+      "tests": [["Top 1; Stack[1] 42; two pops", "(42, TRUE), then (42, FALSE)"], ["Top 0; Item initially 9", "Item 9; Success FALSE; Top 0"]],
+      "rubric": [["Procedure with both BYREF parameters", 1], ["Check empty before array access", 1], ["Report failure on empty", 1], ["Preserve Item and Top on empty", 1], ["Read the current top item", 1], ["Decrease Top and report success", 1], ["Two correctly formed procedure calls", 1], ["Correct state and outputs for both calls", 1]],
+      "pitfall": "Decreasing Top before reading the item removes the wrong element and can access index 0."
+    },
+    {
+      "id": 15, "title": "Circular queue insertion", "topic": "A2 extension • queue • wraparound", "marks": 9,
+      "question": "Queue is a global ARRAY[1:5] OF STRING. Global INTEGERs Front, Rear, and Count describe it: Front is the next item to remove, Rear is the next free slot to fill, and Count is the number stored. Initially Front = 1, Rear = 1, Count = 0. Write Enqueue(Value : STRING, BYREF Success : BOOLEAN). If full, report failure and change no queue state. Otherwise store Value, advance Rear with wraparound, increase Count, and report success. Enqueue must not change Front.",
+      "scaffold": "For a wraparound trace, begin at Front = 4, Rear = 5, Count = 1 with Queue[4] = \"old\". Insert \"new\" and state the resulting pointers, count, and slot contents.",
+      "code": "PROCEDURE Enqueue(Value : STRING,\n                  BYREF Success : BOOLEAN)\n   IF Count = 5 THEN\n      Success ← FALSE\n   ELSE\n      Queue[Rear] ← Value\n      Rear ← Rear + 1\n      IF Rear > 5 THEN\n         Rear ← 1\n      ENDIF\n      Count ← Count + 1\n      Success ← TRUE\n   ENDIF\nENDPROCEDURE",
+      "explanation": "Rear always identifies the next insertion slot. With Front = 4, Rear = 5 and Count = 1, insertion writes new to Queue[5], wraps Rear to 1, and makes Count = 2. Front stays 4 and Queue[4] stays old. With Count = 5 the failure branch performs no writes to Queue, Front, Rear, or Count.",
+      "tests": [["Rear 5; Count 1; insert new", "Queue[5] new; Rear 1; Count 2; success"], ["Count 5; any insertion", "Failure; all queue state unchanged"]],
+      "rubric": [["Typed procedure and BYREF status", 1], ["Correct full condition", 1], ["Failure status without changing queue state", 1], ["Store at the current Rear", 1], ["Advance Rear", 1], ["Wrap from 6 to 1", 1], ["Increase Count and report success", 1], ["Preserve Front", 1], ["Correct wraparound trace", 1]],
+      "pitfall": "Front = Rear can describe either empty or full here; Count distinguishes those states."
+    },
+    {
+      "id": 16, "title": "Build a reference-only file", "topic": "A2 extension • text files • EOF", "marks": 9,
+      "question": "The existing text file resources.txt contains one resource code per line. Copy every line beginning with the exact uppercase prefix REF- into a new text file reference.txt, in the same order. Ignore shorter and non-matching lines. Output the number copied. Handle an empty source file. You may assume file operations succeed. LENGTH(S) gives the length and MID(S, Start, Count) gives a substring from position 1.",
+      "scaffold": "Check that a line has at least four characters before taking its four-character prefix. Opening reference.txt in WRITE mode replaces any existing contents.",
+      "code": "DECLARE Line : STRING\nDECLARE Copied : INTEGER\nCopied ← 0\nOPENFILE \"resources.txt\" FOR READ\nOPENFILE \"reference.txt\" FOR WRITE\nWHILE NOT EOF(\"resources.txt\")\n   READFILE \"resources.txt\", Line\n   IF LENGTH(Line) >= 4 THEN\n      IF MID(Line, 1, 4) = \"REF-\" THEN\n         WRITEFILE \"reference.txt\", Line\n         Copied ← Copied + 1\n      ENDIF\n   ENDIF\nENDWHILE\nCLOSEFILE \"resources.txt\"\nCLOSEFILE \"reference.txt\"\nOUTPUT Copied",
+      "explanation": "EOF is checked before each read, including the first one, so an empty input produces an empty output file and a count of zero. The nested length check keeps the substring call valid without depending on short-circuit evaluation. Writing immediately preserves the source order.",
+      "tests": [["Lines: REF-7, AB, ref-8, REF-2", "Output lines REF-7, REF-2; count 2"], ["Empty source file", "Empty output file; count 0"], ["Line REF-", "Line copied; count 1"]],
+      "rubric": [["Open input for READ and output for WRITE", 1], ["Initialise count and use STRING line storage", 1], ["EOF tested before reading", 1], ["Read each source line once", 1], ["Guard substring with a length check", 1], ["Test the exact uppercase prefix", 1], ["Write matches and increase count", 1], ["Close both files", 1], ["Output count, including zero for empty input", 1]],
+      "pitfall": "APPEND mode retains old output, so rerunning the program would duplicate earlier results."
+    }
+  ]
+}
