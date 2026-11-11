@@ -8,7 +8,7 @@ Original independent practice; not endorsed by Cambridge International.
 
 For notation, control-flow explanations, the worked trace and teacher notes, see build.py or the PDF.
 
-## Core tasks
+## Core questions
 
 ### 1. School trip budget (5 marks)
 
@@ -16,7 +16,133 @@ Read a positive integer Students and a non-negative REAL TicketPrice. A coach co
 
 Planning prompt: Add the coach charge once, before dividing by the number of students.
 
-#### Worked solution
+A dedicated full lined answer page follows this question in the PDF.
+
+### 2. Parcel charge bands (6 marks)
+
+Read a REAL Mass. If Mass is zero or negative, output Invalid mass. Otherwise charge 3.00 for a mass up to and including 1 kg, 5.50 for a mass above 1 kg and up to and including 5 kg, and 9.00 above 5 kg. Output only the applicable charge or the invalid message.
+
+Planning prompt: Test the invalid range first, then put the remaining ranges in increasing order.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+### 3. Three chances to unlock (7 marks)
+
+A practice lock accepts the STRING code 2468. Read at most three code attempts. Stop asking as soon as an attempt is correct. Output Access granted after a correct attempt, or Locked after three incorrect attempts. Treat the code as text; each INPUT supplies one attempt.
+
+Planning prompt: Track both the number of attempts and whether the lock is open.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+### 4. Temperature log (8 marks)
+
+Read INTEGER temperatures until 999 is entered. The value 999 is a sentinel and must not be processed. Output the average of the readings, or No readings if the sentinel is the first input. Valid readings may be positive, zero, or negative. Assume every non-sentinel input is a valid temperature.
+
+Planning prompt: Read once before the loop and again at its end. Protect the division when no readings exist.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+### 5. Seats still available (6 marks)
+
+Read eight INTEGER values into FreeSeats[1:8]. Each value is the number of free seats on one minibus and is guaranteed to be from 0 to 15 inclusive. Output how many minibuses have at least four free seats, and output the total number of free seats across all eight minibuses.
+
+Planning prompt: A count of qualifying buses and a sum of seats measure different things.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+### 6. Mirror a message (6 marks)
+
+Read a STRING Message, which may be empty. Build and output a second string containing the characters of Message in reverse order. Use LENGTH(S) for the number of characters and MID(S, Start, Count) for a substring; positions start at 1. Use & to concatenate strings. Do not call a built-in reverse function.
+
+Planning prompt: Start with an empty result and visit the original positions from last to first.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+### 7. Busiest activity row (8 marks)
+
+Counts is an already populated INTEGER array with bounds [1:3,1:4]. Values are non-negative. Each row represents one activity and each column one session. Output each row total, then the row number with the largest total. If rows tie, choose the smallest row number. You do not need to read the array.
+
+Planning prompt: Reset the row total inside the outer loop. A strict comparison preserves the first tied row.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+### 8. First matching badge (7 marks)
+
+Badges is an already populated STRING array with bounds [1:40]. N is an INTEGER from 0 to 40 giving the number of used entries. Read Target and output the index of its first occurrence within positions 1 to N, or 0 if it is absent. Repeated badge values are possible. Do not examine entries beyond N.
+
+Planning prompt: Use position 0 for not found and stop the loop once it changes.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+### 9. Sort waiting times (8 marks)
+
+Times is an already populated INTEGER array with bounds [1:30]. N, from 1 to 30, gives its used length. Sort the used entries into ascending order using bubble sort. End early if a whole pass makes no swaps. Output each used value after sorting. Duplicate values must be retained.
+
+Planning prompt: After one full pass, the largest remaining value is already in its final position.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+### 10. Find a sorted catalogue code (8 marks)
+
+Codes is an INTEGER array with bounds [1:100]. Its N used entries are already sorted in ascending order and contain distinct values; N is from 0 to 100. Read Target and use binary search to output its index, or 0 if absent. Do not sort the array or use linear search.
+
+Planning prompt: Exclude the tested midpoint when narrowing the range.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+### 11. A reusable common-factor function (7 marks)
+
+Write a function CommonFactor(A : INTEGER, B : INTEGER) RETURNS INTEGER that returns the greatest common divisor of two positive integers. Use this method: repeatedly replace A by B and B by the remainder of the old A divided by the old B, stopping when B becomes zero. Also show a call for 84 and 30 that outputs the return value.
+
+Planning prompt: Save the remainder before overwriting either value.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+### 12. Select the best project (8 marks)
+
+Define a record type ProjectRecord with a STRING Title, an INTEGER Score, and a BOOLEAN Submitted. Projects is an already populated array of 20 such records; N, from 0 to 20, gives the used length. Output the title and score of the submitted project with the highest score, or No submissions. Scores are 0 to 100. On a tie, use the first project in array order.
+
+Planning prompt: Track the winning index; index 0 can represent no eligible project.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+## Advanced questions
+
+### 13. Recursive digit total (8 marks)
+
+Write a recursive function DigitTotal(N : INTEGER) RETURNS INTEGER for N >= 0. It must return the sum of the decimal digits of N, without strings or loops. Use a base case for N < 10. Trace the calls and returned values for DigitTotal(5072). Explain why recursion terminates.
+
+Planning prompt: Use N MOD 10 for the last digit and N DIV 10 for the remaining digits.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+### 14. Safe stack removal (8 marks)
+
+Stack is a global ARRAY[1:6] OF INTEGER and Top is a global INTEGER. Top = 0 means empty; otherwise Stack[Top] is the top item. Write Pop(BYREF Item : INTEGER, BYREF Success : BOOLEAN) as a procedure. If empty, set Success to FALSE and leave Item and Top unchanged. Otherwise copy the top item to Item, decrease Top, and set Success to TRUE. Show two calls when Top = 1 and Stack[1] = 42.
+
+Planning prompt: Use the precondition 0 <= Top <= 6. Only access Stack[Top] after ruling out an empty stack.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+### 15. Circular queue insertion (9 marks)
+
+Queue is a global ARRAY[1:5] OF STRING. Global INTEGERs Front, Rear, and Count describe it: Front is the next item to remove, Rear is the next free slot to fill, and Count is the number stored. Initially Front = 1, Rear = 1, Count = 0. Write Enqueue(Value : STRING, BYREF Success : BOOLEAN). If full, report failure and change no queue state. Otherwise store Value, advance Rear with wraparound, increase Count, and report success. Enqueue must not change Front.
+
+Planning prompt: For a wraparound trace, begin at Front = 4, Rear = 5, Count = 1 with Queue[4] = "old". Insert "new" and state the resulting pointers, count, and slot contents.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+### 16. Build a reference-only file (9 marks)
+
+The existing text file resources.txt contains one resource code per line. Copy every line beginning with the exact uppercase prefix REF- into a new text file reference.txt, in the same order. Ignore shorter and non-matching lines. Output the number copied. Handle an empty source file. You may assume file operations succeed. LENGTH(S) gives the length and MID(S, Start, Count) gives a substring from position 1.
+
+Planning prompt: Check that a line has at least four characters before taking its four-character prefix. Opening reference.txt in WRITE mode replaces any existing contents.
+
+A dedicated full lined answer page follows this question in the PDF.
+
+## Final mark schemes and worked solutions
+
+### 1. School trip budget (5 marks)
 
 ```text
 DECLARE Students : INTEGER
@@ -46,12 +172,6 @@ The multiplication accounts for every ticket. The fixed coach charge is then add
 Common error: Dividing only the ticket price by the number of students gives the wrong share of the total.
 
 ### 2. Parcel charge bands (6 marks)
-
-Read a REAL Mass. If Mass is zero or negative, output Invalid mass. Otherwise charge 3.00 for a mass up to and including 1 kg, 5.50 for a mass above 1 kg and up to and including 5 kg, and 9.00 above 5 kg. Output only the applicable charge or the invalid message.
-
-Planning prompt: Test the invalid range first, then put the remaining ranges in increasing order.
-
-#### Worked solution
 
 ```text
 DECLARE Mass : REAL
@@ -90,12 +210,6 @@ Each ELSE removes a range already considered. By the time Mass <= 5 is tested, M
 Common error: Separate IF statements can print more than one price for the same mass.
 
 ### 3. Three chances to unlock (7 marks)
-
-A practice lock accepts the STRING code 2468. Read at most three code attempts. Stop asking as soon as an attempt is correct. Output Access granted after a correct attempt, or Locked after three incorrect attempts. Treat the code as text; each INPUT supplies one attempt.
-
-Planning prompt: Track both the number of attempts and whether the lock is open.
-
-#### Worked solution
 
 ```text
 DECLARE Attempt : STRING
@@ -139,12 +253,6 @@ Common error: Using Attempts = 3 to decide failure rejects a correct third attem
 
 ### 4. Temperature log (8 marks)
 
-Read INTEGER temperatures until 999 is entered. The value 999 is a sentinel and must not be processed. Output the average of the readings, or No readings if the sentinel is the first input. Valid readings may be positive, zero, or negative. Assume every non-sentinel input is a valid temperature.
-
-Planning prompt: Read once before the loop and again at its end. Protect the division when no readings exist.
-
-#### Worked solution
-
 ```text
 DECLARE Reading, Total, Count : INTEGER
 DECLARE Average : REAL
@@ -187,12 +295,6 @@ Common error: Counting 999 as a reading changes both the numerator and the denom
 
 ### 5. Seats still available (6 marks)
 
-Read eight INTEGER values into FreeSeats[1:8]. Each value is the number of free seats on one minibus and is guaranteed to be from 0 to 15 inclusive. Output how many minibuses have at least four free seats, and output the total number of free seats across all eight minibuses.
-
-Planning prompt: A count of qualifying buses and a sum of seats measure different things.
-
-#### Worked solution
-
 ```text
 DECLARE FreeSeats : ARRAY[1:8] OF INTEGER
 DECLARE Index, Suitable, Total : INTEGER
@@ -228,12 +330,6 @@ Common error: Suitable must increase by one per qualifying bus, rather than by i
 
 ### 6. Mirror a message (6 marks)
 
-Read a STRING Message, which may be empty. Build and output a second string containing the characters of Message in reverse order. Use LENGTH(S) for the number of characters and MID(S, Start, Count) for a substring; positions start at 1. Use & to concatenate strings. Do not call a built-in reverse function.
-
-Planning prompt: Start with an empty result and visit the original positions from last to first.
-
-#### Worked solution
-
 ```text
 DECLARE Message, Mirrored : STRING
 DECLARE Position : INTEGER
@@ -265,12 +361,6 @@ Each substring contains one character. For an empty input the starting position 
 Common error: Using + instead of & treats string joining like arithmetic.
 
 ### 7. Busiest activity row (8 marks)
-
-Counts is an already populated INTEGER array with bounds [1:3,1:4]. Values are non-negative. Each row represents one activity and each column one session. Output each row total, then the row number with the largest total. If rows tie, choose the smallest row number. You do not need to read the array.
-
-Planning prompt: Reset the row total inside the outer loop. A strict comparison preserves the first tied row.
-
-#### Worked solution
 
 ```text
 // Counts is supplied with bounds [1:3,1:4]
@@ -314,12 +404,6 @@ Common error: Resetting RowTotal before the outer loop produces running totals a
 
 ### 8. First matching badge (7 marks)
 
-Badges is an already populated STRING array with bounds [1:40]. N is an INTEGER from 0 to 40 giving the number of used entries. Read Target and output the index of its first occurrence within positions 1 to N, or 0 if it is absent. Repeated badge values are possible. Do not examine entries beyond N.
-
-Planning prompt: Use position 0 for not found and stop the loop once it changes.
-
-#### Worked solution
-
 ```text
 // Badges and N are supplied
 DECLARE Target : STRING
@@ -357,12 +441,6 @@ The loop condition contains no array access. Consequently no assumption about sh
 Common error: Continuing and overwriting Position on every match returns the last match.
 
 ### 9. Sort waiting times (8 marks)
-
-Times is an already populated INTEGER array with bounds [1:30]. N, from 1 to 30, gives its used length. Sort the used entries into ascending order using bubble sort. End early if a whole pass makes no swaps. Output each used value after sorting. Duplicate values must be retained.
-
-Planning prompt: After one full pass, the largest remaining value is already in its final position.
-
-#### Worked solution
 
 ```text
 // Times and N are supplied
@@ -410,12 +488,6 @@ Common error: Comparing up to Last accesses Times[Last + 1], outside the active 
 
 ### 10. Find a sorted catalogue code (8 marks)
 
-Codes is an INTEGER array with bounds [1:100]. Its N used entries are already sorted in ascending order and contain distinct values; N is from 0 to 100. Read Target and use binary search to output its index, or 0 if absent. Do not sort the array or use linear search.
-
-Planning prompt: Exclude the tested midpoint when narrowing the range.
-
-#### Worked solution
-
 ```text
 // Codes and N are supplied
 DECLARE Target, Low, High, Mid, Position : INTEGER
@@ -461,12 +533,6 @@ Common error: Low ← Mid can repeat the same midpoint forever when the interval
 
 ### 11. A reusable common-factor function (7 marks)
 
-Write a function CommonFactor(A : INTEGER, B : INTEGER) RETURNS INTEGER that returns the greatest common divisor of two positive integers. Use this method: repeatedly replace A by B and B by the remainder of the old A divided by the old B, stopping when B becomes zero. Also show a call for 84 and 30 that outputs the return value.
-
-Planning prompt: Save the remainder before overwriting either value.
-
-#### Worked solution
-
 ```text
 FUNCTION CommonFactor(A : INTEGER, B : INTEGER)
    RETURNS INTEGER
@@ -503,12 +569,6 @@ The nonzero remainders decrease until B becomes zero. At that point A holds the 
 Common error: OUTPUT inside the function is not a substitute for returning a value to its caller.
 
 ### 12. Select the best project (8 marks)
-
-Define a record type ProjectRecord with a STRING Title, an INTEGER Score, and a BOOLEAN Submitted. Projects is an already populated array of 20 such records; N, from 0 to 20, gives the used length. Output the title and score of the submitted project with the highest score, or No submissions. Scores are 0 to 100. On a tie, use the first project in array order.
-
-Planning prompt: Track the winning index; index 0 can represent no eligible project.
-
-#### Worked solution
 
 ```text
 TYPE ProjectRecord
@@ -557,15 +617,7 @@ BestScore = -1 is safe because valid scores are non-negative. The best index rem
 
 Common error: Selecting the largest score before checking Submitted can choose an ineligible project.
 
-## Advanced tasks
-
 ### 13. Recursive digit total (8 marks)
-
-Write a recursive function DigitTotal(N : INTEGER) RETURNS INTEGER for N >= 0. It must return the sum of the decimal digits of N, without strings or loops. Use a base case for N < 10. Trace the calls and returned values for DigitTotal(5072). Explain why recursion terminates.
-
-Planning prompt: Use N MOD 10 for the last digit and N DIV 10 for the remaining digits.
-
-#### Worked solution
 
 ```text
 FUNCTION DigitTotal(N : INTEGER) RETURNS INTEGER
@@ -599,12 +651,6 @@ Calls descend through 5072, 507, 50, and 5. The base call returns 5. Unwinding g
 Common error: Calling DigitTotal(N) again leaves the argument unchanged and never reaches the base case.
 
 ### 14. Safe stack removal (8 marks)
-
-Stack is a global ARRAY[1:6] OF INTEGER and Top is a global INTEGER. Top = 0 means empty; otherwise Stack[Top] is the top item. Write Pop(BYREF Item : INTEGER, BYREF Success : BOOLEAN) as a procedure. If empty, set Success to FALSE and leave Item and Top unchanged. Otherwise copy the top item to Item, decrease Top, and set Success to TRUE. Show two calls when Top = 1 and Stack[1] = 42.
-
-Planning prompt: Use the precondition 0 <= Top <= 6. Only access Stack[Top] after ruling out an empty stack.
-
-#### Worked solution
 
 ```text
 PROCEDURE Pop(BYREF Item : INTEGER,
@@ -648,12 +694,6 @@ Common error: Decreasing Top before reading the item removes the wrong element a
 
 ### 15. Circular queue insertion (9 marks)
 
-Queue is a global ARRAY[1:5] OF STRING. Global INTEGERs Front, Rear, and Count describe it: Front is the next item to remove, Rear is the next free slot to fill, and Count is the number stored. Initially Front = 1, Rear = 1, Count = 0. Write Enqueue(Value : STRING, BYREF Success : BOOLEAN). If full, report failure and change no queue state. Otherwise store Value, advance Rear with wraparound, increase Count, and report success. Enqueue must not change Front.
-
-Planning prompt: For a wraparound trace, begin at Front = 4, Rear = 5, Count = 1 with Queue[4] = "old". Insert "new" and state the resulting pointers, count, and slot contents.
-
-#### Worked solution
-
 ```text
 PROCEDURE Enqueue(Value : STRING,
                   BYREF Success : BOOLEAN)
@@ -693,12 +733,6 @@ Rear always identifies the next insertion slot. With Front = 4, Rear = 5 and Cou
 Common error: Front = Rear can describe either empty or full here; Count distinguishes those states.
 
 ### 16. Build a reference-only file (9 marks)
-
-The existing text file resources.txt contains one resource code per line. Copy every line beginning with the exact uppercase prefix REF- into a new text file reference.txt, in the same order. Ignore shorter and non-matching lines. Output the number copied. Handle an empty source file. You may assume file operations succeed. LENGTH(S) gives the length and MID(S, Start, Count) gives a substring from position 1.
-
-Planning prompt: Check that a line has at least four characters before taking its four-character prefix. Opening reference.txt in WRITE mode replaces any existing contents.
-
-#### Worked solution
 
 ```text
 DECLARE Line : STRING

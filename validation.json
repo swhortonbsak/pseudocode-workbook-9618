@@ -1,9 +1,15 @@
 {
   "file": "Pseudocode-Workbook-9618.pdf",
-  "sha256": "7e6a340423bc39c8d59dbdec249c6bc60cdd7cfcb77b0a70616baff05b2f551c",
-  "pages": 34,
+  "sha256": "1ec2901a1d6e30b3471c3bc8ce3bab6c0f76b630b7bbfffd78ea083f2d4a2a58",
+  "pages": 56,
   "core_tasks": 12,
   "advanced_tasks": 4,
+  "dedicated_full_answer_pages": 16,
+  "writing_lines_per_answer_page": 36,
+  "final_mark_scheme_pages": [
+    41,
+    56
+  ],
   "suggested_marks": 118,
   "checks": {
     "expected_pagination": "passed",
@@ -12,10 +18,13 @@
     "searchable_text_and_assignment_arrows": "passed",
     "text_within_page_and_above_footer": "passed",
     "complete_solution_code_on_expected_pages": "passed",
+    "one_full_answer_page_immediately_after_every_question": "passed",
+    "36_full_width_writing_lines_per_answer_page": "passed",
+    "all_mark_schemes_in_final_section": "passed",
     "mark_allocations": "passed"
   },
   "review_notes": [
-    "Rendered contact sheets for all 34 pages were visually inspected.",
+    "Rendered samples of revised question pages, full answer pages and final mark schemes were visually inspected.",
     "Worked solutions and listed boundary cases were manually reviewed; automated checks here cover the PDF and marking totals, not pseudocode execution."
   ]
 }

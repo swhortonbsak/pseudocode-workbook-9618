@@ -1,0 +1,338 @@
+[
+  {
+    "page": 1,
+    "title": "Pseudocode Workbook",
+    "role": "reference",
+    "task_id": null
+  },
+  {
+    "page": 2,
+    "title": "How to use this workbook",
+    "role": "reference",
+    "task_id": null
+  },
+  {
+    "page": 3,
+    "title": "Notation at a glance",
+    "role": "reference",
+    "task_id": null
+  },
+  {
+    "page": 4,
+    "title": "Choose the control structure",
+    "role": "reference",
+    "task_id": null
+  },
+  {
+    "page": 5,
+    "title": "Worked example: filter and total",
+    "role": "reference",
+    "task_id": null
+  },
+  {
+    "page": 6,
+    "title": "Arrays, modules and file state",
+    "role": "reference",
+    "task_id": null
+  },
+  {
+    "page": 7,
+    "title": "01 / School trip budget",
+    "role": "question",
+    "task_id": 1
+  },
+  {
+    "page": 8,
+    "title": "Question 01 / answer",
+    "role": "response",
+    "task_id": 1
+  },
+  {
+    "page": 9,
+    "title": "02 / Parcel charge bands",
+    "role": "question",
+    "task_id": 2
+  },
+  {
+    "page": 10,
+    "title": "Question 02 / answer",
+    "role": "response",
+    "task_id": 2
+  },
+  {
+    "page": 11,
+    "title": "03 / Three chances to unlock",
+    "role": "question",
+    "task_id": 3
+  },
+  {
+    "page": 12,
+    "title": "Question 03 / answer",
+    "role": "response",
+    "task_id": 3
+  },
+  {
+    "page": 13,
+    "title": "04 / Temperature log",
+    "role": "question",
+    "task_id": 4
+  },
+  {
+    "page": 14,
+    "title": "Question 04 / answer",
+    "role": "response",
+    "task_id": 4
+  },
+  {
+    "page": 15,
+    "title": "05 / Seats still available",
+    "role": "question",
+    "task_id": 5
+  },
+  {
+    "page": 16,
+    "title": "Question 05 / answer",
+    "role": "response",
+    "task_id": 5
+  },
+  {
+    "page": 17,
+    "title": "06 / Mirror a message",
+    "role": "question",
+    "task_id": 6
+  },
+  {
+    "page": 18,
+    "title": "Question 06 / answer",
+    "role": "response",
+    "task_id": 6
+  },
+  {
+    "page": 19,
+    "title": "07 / Busiest activity row",
+    "role": "question",
+    "task_id": 7
+  },
+  {
+    "page": 20,
+    "title": "Question 07 / answer",
+    "role": "response",
+    "task_id": 7
+  },
+  {
+    "page": 21,
+    "title": "08 / First matching badge",
+    "role": "question",
+    "task_id": 8
+  },
+  {
+    "page": 22,
+    "title": "Question 08 / answer",
+    "role": "response",
+    "task_id": 8
+  },
+  {
+    "page": 23,
+    "title": "09 / Sort waiting times",
+    "role": "question",
+    "task_id": 9
+  },
+  {
+    "page": 24,
+    "title": "Question 09 / answer",
+    "role": "response",
+    "task_id": 9
+  },
+  {
+    "page": 25,
+    "title": "10 / Find a sorted catalogue code",
+    "role": "question",
+    "task_id": 10
+  },
+  {
+    "page": 26,
+    "title": "Question 10 / answer",
+    "role": "response",
+    "task_id": 10
+  },
+  {
+    "page": 27,
+    "title": "11 / A reusable common-factor function",
+    "role": "question",
+    "task_id": 11
+  },
+  {
+    "page": 28,
+    "title": "Question 11 / answer",
+    "role": "response",
+    "task_id": 11
+  },
+  {
+    "page": 29,
+    "title": "12 / Select the best project",
+    "role": "question",
+    "task_id": 12
+  },
+  {
+    "page": 30,
+    "title": "Question 12 / answer",
+    "role": "response",
+    "task_id": 12
+  },
+  {
+    "page": 31,
+    "title": "13 / Recursive digit total",
+    "role": "question",
+    "task_id": 13
+  },
+  {
+    "page": 32,
+    "title": "Question 13 / answer",
+    "role": "response",
+    "task_id": 13
+  },
+  {
+    "page": 33,
+    "title": "14 / Safe stack removal",
+    "role": "question",
+    "task_id": 14
+  },
+  {
+    "page": 34,
+    "title": "Question 14 / answer",
+    "role": "response",
+    "task_id": 14
+  },
+  {
+    "page": 35,
+    "title": "15 / Circular queue insertion",
+    "role": "question",
+    "task_id": 15
+  },
+  {
+    "page": 36,
+    "title": "Question 15 / answer",
+    "role": "response",
+    "task_id": 15
+  },
+  {
+    "page": 37,
+    "title": "16 / Build a reference-only file",
+    "role": "question",
+    "task_id": 16
+  },
+  {
+    "page": 38,
+    "title": "Question 16 / answer",
+    "role": "response",
+    "task_id": 16
+  },
+  {
+    "page": 39,
+    "title": "Teacher guidance",
+    "role": "reference",
+    "task_id": null
+  },
+  {
+    "page": 40,
+    "title": "References and next steps",
+    "role": "reference",
+    "task_id": null
+  },
+  {
+    "page": 41,
+    "title": "01 / School trip budget",
+    "role": "solution",
+    "task_id": 1
+  },
+  {
+    "page": 42,
+    "title": "02 / Parcel charge bands",
+    "role": "solution",
+    "task_id": 2
+  },
+  {
+    "page": 43,
+    "title": "03 / Three chances to unlock",
+    "role": "solution",
+    "task_id": 3
+  },
+  {
+    "page": 44,
+    "title": "04 / Temperature log",
+    "role": "solution",
+    "task_id": 4
+  },
+  {
+    "page": 45,
+    "title": "05 / Seats still available",
+    "role": "solution",
+    "task_id": 5
+  },
+  {
+    "page": 46,
+    "title": "06 / Mirror a message",
+    "role": "solution",
+    "task_id": 6
+  },
+  {
+    "page": 47,
+    "title": "07 / Busiest activity row",
+    "role": "solution",
+    "task_id": 7
+  },
+  {
+    "page": 48,
+    "title": "08 / First matching badge",
+    "role": "solution",
+    "task_id": 8
+  },
+  {
+    "page": 49,
+    "title": "09 / Sort waiting times",
+    "role": "solution",
+    "task_id": 9
+  },
+  {
+    "page": 50,
+    "title": "10 / Find a sorted catalogue code",
+    "role": "solution",
+    "task_id": 10
+  },
+  {
+    "page": 51,
+    "title": "11 / A reusable common-factor function",
+    "role": "solution",
+    "task_id": 11
+  },
+  {
+    "page": 52,
+    "title": "12 / Select the best project",
+    "role": "solution",
+    "task_id": 12
+  },
+  {
+    "page": 53,
+    "title": "13 / Recursive digit total",
+    "role": "solution",
+    "task_id": 13
+  },
+  {
+    "page": 54,
+    "title": "14 / Safe stack removal",
+    "role": "solution",
+    "task_id": 14
+  },
+  {
+    "page": 55,
+    "title": "15 / Circular queue insertion",
+    "role": "solution",
+    "task_id": 15
+  },
+  {
+    "page": 56,
+    "title": "16 / Build a reference-only file",
+    "role": "solution",
+    "task_id": 16
+  }
+]

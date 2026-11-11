@@ -5,14 +5,13 @@ import json
 from pathlib import Path
 
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle,
-    Preformatted, Flowable, KeepTogether,
+    Preformatted, Flowable,
 )
 
 ROOT = Path(__file__).resolve().parent
@@ -47,6 +46,7 @@ S = {
 WIDTH = A4[0] - 96
 story = []
 page_titles = []
+page_layout = []
 
 def p(text, style="body"):
     return Paragraph(html.escape(str(text)).replace("\n", "<br/>"), S[style])
@@ -97,10 +97,13 @@ class WritingLines(Flowable):
             y = self.height - (n + 1) * self.gap + 3
             self.canv.line(0, y, self.width, y)
 
-def page(title, items, label="LEARN / PRACTISE / REVIEW", cover=False):
+def page(title, items, label="LEARN / PRACTISE / REVIEW", cover=False,
+         role="reference", task_id=None):
     if story:
         story.append(PageBreak())
     page_titles.append(title)
+    page_layout.append({"page": len(page_titles), "title": title,
+                        "role": role, "task_id": task_id})
     if not cover:
         story.extend([p(label, "label"), p(title, "h1")])
     story.extend(items)
@@ -118,7 +121,7 @@ page("Pseudocode Workbook", [
     table([
         ["12 core tasks", "4 advanced tasks"],
         ["Worked solutions and test cases", "Suggested marks and teacher notes"],
-        ["Printable writing space", "Editable source included"],
+        ["A full answer page for every task", "All mark schemes at the end"],
     ], header=False),
     Spacer(1, 30),
     p("Name: __________________________________________________"),
@@ -131,16 +134,16 @@ page("Pseudocode Workbook", [
 core_marks = sum(t["marks"] for t in DATA["tasks"])
 advanced_marks = sum(t["marks"] for t in DATA["advanced"])
 page("How to use this workbook", [
-    p("Read the reference pages, trace the worked example, then attempt each task before consulting its solution. Write on the lines provided or use an additional sheet for longer algorithms."),
+    p("Read the reference pages and trace the worked example, then attempt the tasks. Each question has planning space and is followed immediately by a dedicated full lined answer page. All worked solutions and mark schemes are collected at the end of the PDF."),
     table([
         ["Section", "Pages", "Purpose"],
         ["Notation and control flow", "3–4", "Read and write consistent pseudocode"],
         ["Worked trace and data structures", "5–6", "See how state changes during execution"],
-        ["Core practice: tasks 1–12", "7–12", "Write, test and improve your algorithms"],
-        ["Core worked solutions", "13–24", "Compare logic and identify missed cases"],
-        ["Advanced practice: tasks 13–16", "25–28", "Recursion, stack, queue and text files"],
-        ["Advanced worked solutions", "29–32", "Review state, boundaries and termination"],
-        ["Teacher guidance and references", "33–34", "Assess, reteach and extend"],
+        ["Core questions and answer pages", "7–30", "One question and one full answer page per task"],
+        ["Advanced questions and answer pages", "31–38", "Recursion, stack, queue and text files"],
+        ["Teacher guidance and references", "39–40", "Assess, reteach and extend"],
+        ["Final mark schemes: tasks 1–12", "41–52", "Core solutions, tests and marking points"],
+        ["Final mark schemes: tasks 13–16", "53–56", "Advanced solutions, tests and marking points"],
     ], [WIDTH * 0.40, WIDTH * 0.12, WIDTH * 0.48]),
     p("A useful practice cycle", "h2"),
     p("1. State the inputs, outputs and assumptions.\n2. Choose the data and control structures.\n3. Write an algorithm with clear indentation.\n4. Trace a normal case and a boundary case.\n5. Compare with the suggested solution and explain any differences."),
@@ -189,9 +192,8 @@ page("Choose the control structure", [
     p("Repeat until an input is valid", "h2"),
     code("DECLARE Size : INTEGER\nREPEAT\n   INPUT Size\nUNTIL (Size >= 1) AND (Size <= 6)\nOUTPUT Size"),
     p("The condition means stop when Size is within the inclusive range. Inputs 0, 7, 6 require three attempts and produce 6."),
-    p("Review before you move on", "h2"),
-    p("What happens if the first input is valid? Why would a WHILE loop need an initial value before checking it? What statement ensures progress towards termination?"),
-    WritingLines(3),
+    p("Remember the stopping rule", "h2"),
+    p("A valid first input ends this REPEAT loop after one attempt. A WHILE loop checks its condition before running the body, so variables used in that condition must already have values. Every input loop needs a way to read a new value and eventually meet its stopping condition."),
 ])
 
 page("Worked example: filter and total", [
@@ -226,61 +228,23 @@ page("Arrays, modules and file state", [
     p("Check empty and full conditions before using a stack or queue slot. Test a string's length before extracting a fixed prefix. Place potentially unsafe accesses inside a guarded branch rather than assuming AND will skip an operand."),
 ])
 
-for pair in range(6):
-    tasks = DATA["tasks"][pair * 2:pair * 2 + 2]
-    items = []
-    for index, task in enumerate(tasks):
-        items += [
-            p(f"{task['id']:02d}  {task['title']}  [{task['marks']} marks]", "h2"),
-            p(task["topic"], "small"),
-            p(task["question"]),
-            p("Check: " + task["tests"][0][0] + " → " + task["tests"][0][1], "small"),
-            p("Plan and pseudocode (continue on another sheet if needed):", "small"),
-            WritingLines(6, 13),
-            Spacer(1, 8),
-        ]
-        if index == 0:
-            items.append(Spacer(1, 9))
-    page(f"Core practice / {pair * 2 + 1:02d}–{pair * 2 + 2:02d}", items, "PRACTISE / WRITE BEFORE READING THE SOLUTION")
-
-for task in DATA["tasks"]:
-    page(f"{task['id']:02d} / {task['title']}", [
-        p(f"{task['topic']}  •  {task['marks']} suggested marks", "small"),
-        code(task["code"]),
-        Spacer(1, 8),
-        p(task["explanation"]),
-        table([["Test input / state", "Expected result"]] + task["tests"]),
-        Spacer(1, 9),
-        rubric(task),
-        Spacer(1, 9),
-        p("Common error: " + task["pitfall"], "small"),
-    ], "REVIEW / CORE WORKED SOLUTION")
-
-for task in DATA["advanced"]:
+for task in DATA["tasks"] + DATA["advanced"]:
+    level = "CORE" if task["id"] <= 12 else "ADVANCED"
+    question_page = len(page_titles) + 1
     page(f"{task['id']:02d} / {task['title']}", [
         p(f"{task['topic']}  •  {task['marks']} suggested marks", "small"),
         p(task["question"]),
         p("Planning prompt", "h2"),
-        p(task["scaffold"]),
-        p("Algorithm and explanation", "h2"),
-        WritingLines(18, 17),
-        Spacer(1, 14),
-        p("Test or trace: include the state before and after each operation.", "small"),
-        WritingLines(5, 17),
-    ], "PRACTISE / ADVANCED TASK")
-
-for task in DATA["advanced"]:
-    page(f"{task['id']:02d} / {task['title']}", [
-        p(f"{task['topic']}  •  {task['marks']} suggested marks", "small"),
-        code(task["code"]),
-        Spacer(1, 8),
-        p(task["explanation"]),
-        table([["Test input / state", "Expected result"]] + task["tests"]),
-        Spacer(1, 9),
-        rubric(task),
-        Spacer(1, 9),
-        p("Common error: " + task["pitfall"], "small"),
-    ], "REVIEW / ADVANCED WORKED SOLUTION")
+        p(task.get("hint", task.get("scaffold", ""))),
+        p("Planning and first draft", "h2"),
+        p(f"Use this space to plan. A full lined answer page for this question follows on page {question_page + 1}.", "small"),
+        WritingLines(19, 17),
+    ], f"PRACTISE / {level} QUESTION", role="question", task_id=task["id"])
+    page(f"Question {task['id']:02d} / answer", [
+        p(task["title"], "small"),
+        p("Write your pseudocode, explanations and test traces here.", "small"),
+        WritingLines(36, 17),
+    ], "STUDENT RESPONSE / FULL ANSWER PAGE", role="response", task_id=task["id"])
 
 page("Teacher guidance", [
     p("Suggested teaching sequence", "h2"),
@@ -314,11 +278,26 @@ page("References and next steps", [
     p("This workbook was created in response to a request for a new pseudocode resource. It is not a copy, transcription or reformatting of the linked Scribd publication. It contains no official Cambridge past-paper questions or official mark schemes. Cambridge International and other names belong to their respective owners."),
     p("Continue your practice", "h2"),
     p("Choose one solution and translate it into your programming language. Run every listed test and add one new edge case. Then change one requirement, update the algorithm, and explain which statements must change and why."),
-    p("Personal review", "h2"),
-    p("A structure I can now explain: ____________________________________\n\nA boundary I must remember: ______________________________________\n\nMy next practice target: __________________________________________"),
+    p("Choose a next practice target", "h2"),
+    p("Return to a task that needed correction and attempt it again on its full answer page. Use a different test case to check the revised algorithm before comparing it with the final mark scheme."),
     Spacer(1, 17),
     p("Editable source: workbook.json and build.py. Rebuild instructions are in README.md. Prepared November 2026.", "small"),
 ])
+
+for task in DATA["tasks"] + DATA["advanced"]:
+    level = "CORE" if task["id"] <= 12 else "ADVANCED"
+    page(f"{task['id']:02d} / {task['title']}", [
+        p(f"{task['topic']}  •  {task['marks']} suggested marks", "small"),
+        code(task["code"]),
+        Spacer(1, 8),
+        p(task["explanation"]),
+        table([["Test input / state", "Expected result"]] + task["tests"]),
+        Spacer(1, 9),
+        rubric(task),
+        Spacer(1, 9),
+        p("Common error: " + task["pitfall"], "small"),
+    ], f"FINAL MARK SCHEMES / {level} WORKED SOLUTION",
+       role="solution", task_id=task["id"])
 
 def decorate(canvas, doc):
     canvas.saveState()
@@ -351,20 +330,24 @@ def export_markdown():
     text = ["# " + DATA["title"], "", DATA["subtitle"], "", DATA["edition"], "",
             "Original independent practice; not endorsed by Cambridge International.", "",
             "For notation, control-flow explanations, the worked trace and teacher notes, see build.py or the PDF.", ""]
-    for section, tasks in [("Core tasks", DATA["tasks"]), ("Advanced tasks", DATA["advanced"])]:
+    for section, tasks in [("Core questions", DATA["tasks"]), ("Advanced questions", DATA["advanced"])]:
         text += ["## " + section, ""]
         for t in tasks:
             text += [f"### {t['id']}. {t['title']} ({t['marks']} marks)", "", t["question"], "",
-                     "Planning prompt: " + t.get("hint", t.get("scaffold", "")), "", "#### Worked solution", "",
-                     "```text", t["code"], "```", "", t["explanation"], "", "#### Test cases", ""]
-            text += [f"- {a} → {b}" for a, b in t["tests"]]
-            text += ["", "#### Suggested marking points", ""]
-            text += [f"- {a}: {b} mark(s)" for a, b in t["rubric"]]
-            text += ["", "Common error: " + t["pitfall"], ""]
+                     "Planning prompt: " + t.get("hint", t.get("scaffold", "")), "",
+                     "A dedicated full lined answer page follows this question in the PDF.", ""]
+    text += ["## Final mark schemes and worked solutions", ""]
+    for t in DATA["tasks"] + DATA["advanced"]:
+        text += [f"### {t['id']}. {t['title']} ({t['marks']} marks)", "",
+                 "```text", t["code"], "```", "", t["explanation"], "", "#### Test cases", ""]
+        text += [f"- {a} → {b}" for a, b in t["tests"]]
+        text += ["", "#### Suggested marking points", ""]
+        text += [f"- {a}: {b} mark(s)" for a, b in t["rubric"]]
+        text += ["", "Common error: " + t["pitfall"], ""]
     (ROOT / "Workbook-Source.md").write_text("\n".join(text))
 
 if __name__ == "__main__":
-    assert len(page_titles) == 34
+    assert len(page_titles) == 56
     for task in DATA["tasks"] + DATA["advanced"]:
         assert sum(m for _, m in task["rubric"]) == task["marks"], task["id"]
     doc = SimpleDocTemplate(str(OUT), pagesize=A4, rightMargin=48, leftMargin=48,
@@ -373,4 +356,5 @@ if __name__ == "__main__":
                             subject="Original pseudocode practice, worked solutions and teacher guidance")
     doc.build(story, onFirstPage=decorate, onLaterPages=decorate)
     export_markdown()
+    (ROOT / "page-layout.json").write_text(json.dumps(page_layout, indent=2) + "\n")
     print(f"Built {OUT.name}; planned pages: {len(page_titles)}; marks: {core_marks + advanced_marks}")
